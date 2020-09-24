@@ -1,8 +1,9 @@
-package the.wuxjian.examples.netty;
+package the.wuxjian.examples.netty.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
+import io.netty.channel.ChannelPipeline;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -35,7 +36,8 @@ public class NettyServer {
                 .childOption(ChannelOption.TCP_NODELAY, true)         //表示是否开启Nagle算法，true表示关闭，false表示开启，通俗地说，如果要求高实时性，有数据发送时就马上发送，就关闭，如果需要减少发送次数减少网络交互，就开启
                 .childHandler(new ChannelInitializer<NioSocketChannel>() { //处理新的连接
                     protected void initChannel(NioSocketChannel ch) {
-                        System.out.println(ch.attr(clientKey).get());
+                        ChannelPipeline pipeline = ch.pipeline();
+                        pipeline.addLast(new FirstServerHandler());
                     }
                 });
 

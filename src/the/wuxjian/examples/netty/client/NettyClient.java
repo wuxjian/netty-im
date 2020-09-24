@@ -1,8 +1,9 @@
-package the.wuxjian.examples.netty;
+package the.wuxjian.examples.netty.client;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
+import io.netty.channel.ChannelPipeline;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -40,10 +41,11 @@ public class NettyClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-
+                        ChannelPipeline pipeline = ch.pipeline();
+                        pipeline.addLast(new FirstClientHandler());
                     }
                 });
-        connect(bootstrap, "projectlombok.org", 443, MAX_RETRY);
+        connect(bootstrap, "127.0.0.1", 8000, MAX_RETRY);
 
     }
 
