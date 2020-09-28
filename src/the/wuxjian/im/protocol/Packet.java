@@ -1,4 +1,4 @@
-package the.wuxjian.im.protocol.command;
+package the.wuxjian.im.protocol;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;

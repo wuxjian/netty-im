@@ -1,7 +1,10 @@
-package the.wuxjian.im.protocol.command;
+package the.wuxjian.im.protocol;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
+import the.wuxjian.im.protocol.command.Command;
+import the.wuxjian.im.protocol.request.LoginRequestPacket;
+import the.wuxjian.im.protocol.response.LoginResponsePacket;
 import the.wuxjian.im.serialize.Serializer;
 import the.wuxjian.im.serialize.SerializerAlgorithm;
 import the.wuxjian.im.serialize.impl.JSONSerializer;
@@ -17,19 +20,26 @@ public class PacketCodeC {
     private static final Map<Byte, Class<? extends Packet>> packetTypeMap;
     private static final Map<Byte, Serializer> serializerMap;
 
+
+    public final static PacketCodeC INSTANCE = new PacketCodeC();
+
+    private PacketCodeC() {}
+
+
     static {
         packetTypeMap = new HashMap<>();
         packetTypeMap.put(Command.LOGIN_REQUEST, LoginRequestPacket.class);
+        packetTypeMap.put(Command.LOGIN_RESPONSE, LoginResponsePacket.class);
 
         serializerMap = new HashMap<>();
         Serializer serializer = new JSONSerializer();
         serializerMap.put(serializer.getSerializeAlgorithm(), serializer);
     }
 
-    public ByteBuf encode(Packet packet) {
+    public ByteBuf encode(ByteBufAllocator byteBufAllocator, Packet packet) {
         byte[] bytes = Serializer.DEFAULT.serialize(packet);
 
-        ByteBuf buffer = ByteBufAllocator.DEFAULT.ioBuffer();
+        ByteBuf buffer = byteBufAllocator.ioBuffer();
         //1 魔数
         buffer.writeInt(MAGIC_NUMBER);
         //2 版本号
@@ -86,8 +96,8 @@ public class PacketCodeC {
         LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
         loginRequestPacket.setUsername("wuxjian");
         loginRequestPacket.setPassword("123456");
-        loginRequestPacket.setUserId(10000);
-        ByteBuf buf = codeC.encode(loginRequestPacket);
+        loginRequestPacket.setUserId("10000");
+        ByteBuf buf = codeC.encode(ByteBufAllocator.DEFAULT, loginRequestPacket);
 
         Packet packet = codeC.decode(buf);
 
