@@ -4,7 +4,9 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import the.wuxjian.im.protocol.command.Command;
 import the.wuxjian.im.protocol.request.LoginRequestPacket;
+import the.wuxjian.im.protocol.request.MessageRequestPacket;
 import the.wuxjian.im.protocol.response.LoginResponsePacket;
+import the.wuxjian.im.protocol.response.MessageResponsePacket;
 import the.wuxjian.im.serialize.Serializer;
 import the.wuxjian.im.serialize.SerializerAlgorithm;
 import the.wuxjian.im.serialize.impl.JSONSerializer;
@@ -30,6 +32,8 @@ public class PacketCodeC {
         packetTypeMap = new HashMap<>();
         packetTypeMap.put(Command.LOGIN_REQUEST, LoginRequestPacket.class);
         packetTypeMap.put(Command.LOGIN_RESPONSE, LoginResponsePacket.class);
+        packetTypeMap.put(Command.MESSAGE_REQUEST, MessageRequestPacket.class);
+        packetTypeMap.put(Command.MESSAGE_RESPONSE, MessageResponsePacket.class);
 
         serializerMap = new HashMap<>();
         Serializer serializer = new JSONSerializer();
