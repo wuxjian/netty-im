@@ -2,13 +2,14 @@ package the.wuxjian.im.client;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import the.wuxjian.im.client.handler.LoginResponseHandler;
+import the.wuxjian.im.client.handler.MessageResponseHandler;
+import the.wuxjian.im.codec.PacketDecoder;
+import the.wuxjian.im.codec.PacketEncoder;
 import the.wuxjian.im.protocol.PacketCodeC;
 import the.wuxjian.im.protocol.request.MessageRequestPacket;
 import the.wuxjian.im.util.LoginUtil;
@@ -39,7 +40,11 @@ public class NettyClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     public void initChannel(SocketChannel ch) {
-                        ch.pipeline().addLast(new ClientHandler());
+                        ChannelPipeline pipeline = ch.pipeline();
+                        pipeline.addLast(new PacketDecoder());
+                        pipeline.addLast(new PacketEncoder());
+                        pipeline.addLast(new LoginResponseHandler());
+                        pipeline.addLast(new MessageResponseHandler());
                     }
                 });
 
@@ -79,8 +84,7 @@ public class NettyClient {
 
                     MessageRequestPacket packet = new MessageRequestPacket();
                     packet.setMessage(line);
-                    ByteBuf byteBuf = PacketCodeC.INSTANCE.encode(channel.alloc(), packet);
-                    channel.writeAndFlush(byteBuf);
+                    channel.writeAndFlush(packet);
                 }
             }
         }).start();

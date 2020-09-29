@@ -3,11 +3,16 @@ package the.wuxjian.im.server;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
+import io.netty.channel.ChannelPipeline;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import the.wuxjian.im.codec.PacketDecoder;
+import the.wuxjian.im.codec.PacketEncoder;
+import the.wuxjian.im.server.handler.LoginRequestHandler;
+import the.wuxjian.im.server.handler.MessageRequestHandler;
 
 import java.util.Date;
 
@@ -32,7 +37,11 @@ public class NettyServer {
                 .handler(new LoggingHandler(LogLevel.INFO))
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     protected void initChannel(SocketChannel ch) {
-                        ch.pipeline().addLast(new ServerHandler());
+                        ChannelPipeline pipeline = ch.pipeline();
+                        pipeline.addLast(new PacketDecoder());
+                        pipeline.addLast(new PacketEncoder());
+                        pipeline.addLast(new LoginRequestHandler());
+                        pipeline.addLast(new MessageRequestHandler());
                     }
                 });
 
