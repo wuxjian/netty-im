@@ -40,7 +40,7 @@ public class PacketCodeC {
         serializerMap.put(serializer.getSerializeAlgorithm(), serializer);
     }
 
-    public ByteBuf encode(ByteBuf buffer, Packet packet) {
+    public void encode(ByteBuf buffer, Packet packet) {
         byte[] bytes = Serializer.DEFAULT.serialize(packet);
 
         //1 魔数
@@ -57,7 +57,6 @@ public class PacketCodeC {
         //6 内容
         buffer.writeBytes(bytes);
 
-        return buffer;
     }
 
     public Packet decode(ByteBuf buf) {
@@ -100,7 +99,8 @@ public class PacketCodeC {
         loginRequestPacket.setUsername("wuxjian");
         loginRequestPacket.setPassword("123456");
         loginRequestPacket.setUserId("10000");
-        ByteBuf buf = codeC.encode(ByteBufAllocator.DEFAULT.ioBuffer(), loginRequestPacket);
+        ByteBuf buf = ByteBufAllocator.DEFAULT.ioBuffer();
+        codeC.encode(buf, loginRequestPacket);
 
         Packet packet = codeC.decode(buf);
 
