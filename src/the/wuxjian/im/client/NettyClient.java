@@ -1,7 +1,6 @@
 package the.wuxjian.im.client;
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -10,7 +9,7 @@ import the.wuxjian.im.client.handler.LoginResponseHandler;
 import the.wuxjian.im.client.handler.MessageResponseHandler;
 import the.wuxjian.im.codec.PacketDecoder;
 import the.wuxjian.im.codec.PacketEncoder;
-import the.wuxjian.im.protocol.PacketCodeC;
+import the.wuxjian.im.codec.Spliter;
 import the.wuxjian.im.protocol.request.MessageRequestPacket;
 import the.wuxjian.im.util.LoginUtil;
 
@@ -41,6 +40,7 @@ public class NettyClient {
                     @Override
                     public void initChannel(SocketChannel ch) {
                         ChannelPipeline pipeline = ch.pipeline();
+                        pipeline.addLast(new Spliter());
                         pipeline.addLast(new PacketDecoder());
                         pipeline.addLast(new PacketEncoder());
                         pipeline.addLast(new LoginResponseHandler());

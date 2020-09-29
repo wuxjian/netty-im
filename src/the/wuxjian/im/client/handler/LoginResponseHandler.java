@@ -24,6 +24,9 @@ public class LoginResponseHandler extends SimpleChannelInboundHandler<LoginRespo
 
         //写入
         ctx.channel().writeAndFlush(loginRequestPacket);
+
+        //触发下个handler的 channelActive()方法
+        ctx.fireChannelActive();
     }
 
 

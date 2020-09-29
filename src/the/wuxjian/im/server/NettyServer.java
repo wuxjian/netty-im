@@ -11,6 +11,7 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import the.wuxjian.im.codec.PacketDecoder;
 import the.wuxjian.im.codec.PacketEncoder;
+import the.wuxjian.im.codec.Spliter;
 import the.wuxjian.im.server.handler.LoginRequestHandler;
 import the.wuxjian.im.server.handler.MessageRequestHandler;
 
@@ -38,6 +39,7 @@ public class NettyServer {
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     protected void initChannel(SocketChannel ch) {
                         ChannelPipeline pipeline = ch.pipeline();
+                        pipeline.addLast(new Spliter());
                         pipeline.addLast(new PacketDecoder());
                         pipeline.addLast(new PacketEncoder());
                         pipeline.addLast(new LoginRequestHandler());
