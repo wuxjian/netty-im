@@ -12,6 +12,7 @@ import io.netty.handler.logging.LoggingHandler;
 import the.wuxjian.im.codec.PacketDecoder;
 import the.wuxjian.im.codec.PacketEncoder;
 import the.wuxjian.im.codec.Spliter;
+import the.wuxjian.im.server.handler.AuthHandler;
 import the.wuxjian.im.server.handler.LoginRequestHandler;
 import the.wuxjian.im.server.handler.MessageRequestHandler;
 
@@ -43,6 +44,10 @@ public class NettyServer {
                         pipeline.addLast(new PacketDecoder());
                         pipeline.addLast(new PacketEncoder());
                         pipeline.addLast(new LoginRequestHandler());
+
+                        //身份校验
+                        pipeline.addLast(new AuthHandler());
+
                         pipeline.addLast(new MessageRequestHandler());
                     }
                 });
