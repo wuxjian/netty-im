@@ -3,9 +3,11 @@ package the.wuxjian.im.protocol;
 import io.netty.buffer.ByteBuf;
 
 import the.wuxjian.im.protocol.command.Command;
+import the.wuxjian.im.protocol.request.CreateGroupRequestPacket;
 import the.wuxjian.im.protocol.request.LoginRequestPacket;
 import the.wuxjian.im.protocol.request.LogoutRequestPacket;
 import the.wuxjian.im.protocol.request.MessageRequestPacket;
+import the.wuxjian.im.protocol.response.CreateGroupResponsePacket;
 import the.wuxjian.im.protocol.response.LoginResponsePacket;
 import the.wuxjian.im.protocol.response.LogoutResponsePacket;
 import the.wuxjian.im.protocol.response.MessageResponsePacket;
@@ -38,6 +40,8 @@ public class PacketCodeC {
         packetTypeMap.put(Command.MESSAGE_RESPONSE, MessageResponsePacket.class);
         packetTypeMap.put(Command.LOGOUT_REQUEST, LogoutRequestPacket.class);
         packetTypeMap.put(Command.LOGOUT_RESPONSE, LogoutResponsePacket.class);
+        packetTypeMap.put(Command.CREATE_GROUP_REQUEST, CreateGroupRequestPacket.class);
+        packetTypeMap.put(Command.CREATE_GROUP_RESPONSE, CreateGroupResponsePacket.class);
 
         serializerMap = new HashMap<>();
         Serializer serializer = new JSONSerializer();

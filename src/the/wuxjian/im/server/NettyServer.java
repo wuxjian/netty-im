@@ -12,10 +12,7 @@ import io.netty.handler.logging.LoggingHandler;
 import the.wuxjian.im.codec.PacketDecoder;
 import the.wuxjian.im.codec.PacketEncoder;
 import the.wuxjian.im.codec.Spliter;
-import the.wuxjian.im.server.handler.AuthHandler;
-import the.wuxjian.im.server.handler.LoginRequestHandler;
-import the.wuxjian.im.server.handler.LogoutRequestHandler;
-import the.wuxjian.im.server.handler.MessageRequestHandler;
+import the.wuxjian.im.server.handler.*;
 
 import java.util.Date;
 
@@ -51,6 +48,9 @@ public class NettyServer {
 
                         //登出
                         pipeline.addLast(new LogoutRequestHandler());
+
+                        //创建群
+                        pipeline.addLast(new CreateGroupRequestHandler());
 
                         pipeline.addLast(new MessageRequestHandler());
                     }

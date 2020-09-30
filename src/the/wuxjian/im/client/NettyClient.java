@@ -7,6 +7,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import the.wuxjian.im.client.console.ConsoleCommand;
 import the.wuxjian.im.client.console.ConsoleCommandManager;
+import the.wuxjian.im.client.handler.CreateGroupResponseHandler;
 import the.wuxjian.im.client.handler.LoginResponseHandler;
 import the.wuxjian.im.client.handler.LogoutResponseHandler;
 import the.wuxjian.im.client.handler.MessageResponseHandler;
@@ -47,6 +48,7 @@ public class NettyClient {
                         pipeline.addLast(new LoginResponseHandler());
                         pipeline.addLast(new LogoutResponseHandler());
                         pipeline.addLast(new MessageResponseHandler());
+                        pipeline.addLast(new CreateGroupResponseHandler());
                     }
                 });
 
