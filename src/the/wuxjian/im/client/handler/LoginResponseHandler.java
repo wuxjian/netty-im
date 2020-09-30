@@ -2,41 +2,25 @@ package the.wuxjian.im.client.handler;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import the.wuxjian.im.protocol.request.LoginRequestPacket;
 import the.wuxjian.im.protocol.response.LoginResponsePacket;
-import the.wuxjian.im.util.LoginUtil;
-
-import java.util.Date;
-import java.util.UUID;
+import the.wuxjian.im.session.Session;
+import the.wuxjian.im.util.SessionUtil;
 
 /**
  * Created by wuxjian on 2020/9/29
  */
 public class LoginResponseHandler extends SimpleChannelInboundHandler<LoginResponsePacket> {
-    @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println(new Date() + ": 客户端开始登录");
-        // 创建登录对象
-        LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
-        loginRequestPacket.setUserId(UUID.randomUUID().toString());
-        loginRequestPacket.setUsername("wuxjian");
-        loginRequestPacket.setPassword("123456");
-
-        //写入
-        ctx.channel().writeAndFlush(loginRequestPacket);
-
-        //触发下个handler的 channelActive()方法
-        ctx.fireChannelActive();
-    }
-
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, LoginResponsePacket packet) throws Exception {
+        String userId = packet.getUserId();
+        String username = packet.getUsername();
+
         if (packet.isSuccess()) {
-            System.out.println(new Date() + ": 客户端登录成功");
-            LoginUtil.markAsLogin(ctx.channel());
+            System.out.println("[" + username + "]登录成功，userId 为: " + userId);
+            SessionUtil.bindSession(new Session(userId, username), ctx.channel());
         } else {
-            System.out.println(new Date() + ": 客户端登录失败，原因：" + packet.getReason());
+            System.out.println("[" + username + "]登录失败，原因：" + packet.getReason());
         }
     }
 }

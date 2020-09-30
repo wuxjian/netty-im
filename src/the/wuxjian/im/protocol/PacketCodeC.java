@@ -92,18 +92,4 @@ public class PacketCodeC {
 
         return packetTypeMap.get(command);
     }
-
-    public static void main(String[] args) {
-        PacketCodeC codeC = new PacketCodeC();
-        LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
-        loginRequestPacket.setUsername("wuxjian");
-        loginRequestPacket.setPassword("123456");
-        loginRequestPacket.setUserId("10000");
-        ByteBuf buf = ByteBufAllocator.DEFAULT.ioBuffer();
-        codeC.encode(buf, loginRequestPacket);
-
-        Packet packet = codeC.decode(buf);
-
-        System.out.println(packet);
-    }
 }

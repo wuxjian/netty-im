@@ -10,8 +10,9 @@ import the.wuxjian.im.client.handler.MessageResponseHandler;
 import the.wuxjian.im.codec.PacketDecoder;
 import the.wuxjian.im.codec.PacketEncoder;
 import the.wuxjian.im.codec.Spliter;
+import the.wuxjian.im.protocol.request.LoginRequestPacket;
 import the.wuxjian.im.protocol.request.MessageRequestPacket;
-import the.wuxjian.im.util.LoginUtil;
+import the.wuxjian.im.util.SessionUtil;
 
 import java.util.Date;
 import java.util.Scanner;
@@ -75,21 +76,39 @@ public class NettyClient {
     }
 
     private static void startConsoleThread(Channel channel) {
+        Scanner sc = new Scanner(System.in);
+        LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
+
         new Thread(() -> {
             while (!Thread.interrupted()) {
-                System.out.println("输入消息发送至服务端: ");
-                Scanner sc = new Scanner(System.in);
-                String line = sc.nextLine();
+                if (!SessionUtil.hasLogin(channel)) {
+                    System.out.print("输入用户名登录: ");
+                    String username = sc.nextLine();
+                    loginRequestPacket.setUsername(username);
 
-                MessageRequestPacket packet = new MessageRequestPacket();
-                packet.setMessage(line);
-                if (channel.isOpen()) {
-                    channel.writeAndFlush(packet);
+                    // 密码使用默认的
+                    loginRequestPacket.setPassword("pwd");
+
+                    // 发送登录数据包
+                    channel.writeAndFlush(loginRequestPacket);
+                    waitForLoginResponse();
                 } else {
-                    System.out.println("channel close");
-                    break;
+                    System.out.println("输入userId和要发送的消息: ");
+                    String toUserId = sc.next();
+                    String message = sc.next();
+                    channel.writeAndFlush(new MessageRequestPacket(toUserId, message));
+                    System.out.println("发送成功");
+                    System.out.println();
                 }
             }
         }).start();
+    }
+
+
+    private static void waitForLoginResponse() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ignored) {
+        }
     }
 }

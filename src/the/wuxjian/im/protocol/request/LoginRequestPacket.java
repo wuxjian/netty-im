@@ -10,7 +10,6 @@ import the.wuxjian.im.protocol.command.Command;
 @Data
 public class LoginRequestPacket extends Packet {
 
-    private String userId;
 
     private String username;
 
