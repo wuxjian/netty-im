@@ -5,15 +5,14 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import the.wuxjian.im.client.console.ConsoleCommand;
+import the.wuxjian.im.client.console.ConsoleCommandManager;
 import the.wuxjian.im.client.handler.LoginResponseHandler;
 import the.wuxjian.im.client.handler.LogoutResponseHandler;
 import the.wuxjian.im.client.handler.MessageResponseHandler;
 import the.wuxjian.im.codec.PacketDecoder;
 import the.wuxjian.im.codec.PacketEncoder;
 import the.wuxjian.im.codec.Spliter;
-import the.wuxjian.im.protocol.request.LoginRequestPacket;
-import the.wuxjian.im.protocol.request.MessageRequestPacket;
-import the.wuxjian.im.util.SessionUtil;
 
 import java.util.Date;
 import java.util.Scanner;
@@ -78,30 +77,11 @@ public class NettyClient {
     }
 
     private static void startConsoleThread(Channel channel) {
-        Scanner sc = new Scanner(System.in);
-        LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
-
+        Scanner scanner = new Scanner(System.in);
+        ConsoleCommand command = new ConsoleCommandManager();
         new Thread(() -> {
             while (!Thread.interrupted()) {
-                if (!SessionUtil.hasLogin(channel)) {
-                    System.out.print("输入用户名登录: ");
-                    String username = sc.nextLine();
-                    loginRequestPacket.setUsername(username);
-
-                    // 密码使用默认的
-                    loginRequestPacket.setPassword("pwd");
-
-                    // 发送登录数据包
-                    channel.writeAndFlush(loginRequestPacket);
-                    waitForLoginResponse();
-                } else {
-                    System.out.println("输入userId和要发送的消息: ");
-                    String toUserId = sc.next();
-                    String message = sc.next();
-                    channel.writeAndFlush(new MessageRequestPacket(toUserId, message));
-                    System.out.println("发送成功");
-                    System.out.println();
-                }
+                command.exec(scanner, channel);
             }
         }).start();
     }
