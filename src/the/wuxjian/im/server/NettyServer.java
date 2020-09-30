@@ -14,6 +14,7 @@ import the.wuxjian.im.codec.PacketEncoder;
 import the.wuxjian.im.codec.Spliter;
 import the.wuxjian.im.server.handler.AuthHandler;
 import the.wuxjian.im.server.handler.LoginRequestHandler;
+import the.wuxjian.im.server.handler.LogoutRequestHandler;
 import the.wuxjian.im.server.handler.MessageRequestHandler;
 
 import java.util.Date;
@@ -47,6 +48,9 @@ public class NettyServer {
 
                         //身份校验
                         pipeline.addLast(new AuthHandler());
+
+                        //登出
+                        pipeline.addLast(new LogoutRequestHandler());
 
                         pipeline.addLast(new MessageRequestHandler());
                     }

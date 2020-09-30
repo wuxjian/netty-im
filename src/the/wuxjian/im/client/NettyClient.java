@@ -6,6 +6,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import the.wuxjian.im.client.handler.LoginResponseHandler;
+import the.wuxjian.im.client.handler.LogoutResponseHandler;
 import the.wuxjian.im.client.handler.MessageResponseHandler;
 import the.wuxjian.im.codec.PacketDecoder;
 import the.wuxjian.im.codec.PacketEncoder;
@@ -45,6 +46,7 @@ public class NettyClient {
                         pipeline.addLast(new PacketDecoder());
                         pipeline.addLast(new PacketEncoder());
                         pipeline.addLast(new LoginResponseHandler());
+                        pipeline.addLast(new LogoutResponseHandler());
                         pipeline.addLast(new MessageResponseHandler());
                     }
                 });
