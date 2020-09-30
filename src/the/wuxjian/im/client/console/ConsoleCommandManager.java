@@ -19,6 +19,7 @@ public class ConsoleCommandManager implements ConsoleCommand {
         consoleCommandMap.put("logout", new LogoutConsoleCommand());
         consoleCommandMap.put("login", new LoginConsoleCommand());
         consoleCommandMap.put("createGroup", new CreateGroupConsoleCommand());
+        consoleCommandMap.put("joinGroup", new JoinGroupConsoleCommand());
     }
 
     @Override
@@ -28,6 +29,7 @@ public class ConsoleCommandManager implements ConsoleCommand {
         System.out.println("2 logout：登出");
         System.out.println("3 sendToUser：单聊");
         System.out.println("4 createGroup：创建群");
+        System.out.println("5 joinGroup：入群");
         //  获取第一个指令
         String command = scanner.next();
 

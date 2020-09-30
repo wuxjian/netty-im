@@ -1,6 +1,7 @@
 package the.wuxjian.im.util;
 
 import io.netty.channel.Channel;
+import io.netty.channel.group.ChannelGroup;
 import the.wuxjian.im.protocol.attribute.Attributes;
 import the.wuxjian.im.session.Session;
 
@@ -12,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class SessionUtil {
     private static final Map<String, Channel> userIdChannelMap = new ConcurrentHashMap<>();
+    private static final Map<String, ChannelGroup> groupIdChannelGroupMap = new ConcurrentHashMap<>();
 
     public static void bindSession(Session session, Channel channel) {
         userIdChannelMap.put(session.getUserId(), channel);
@@ -36,5 +38,13 @@ public class SessionUtil {
     public static Channel getChannel(String userId) {
 
         return userIdChannelMap.get(userId);
+    }
+
+    public static void bindGroup(String groupId, ChannelGroup group) {
+        groupIdChannelGroupMap.put(groupId, group);
+    }
+
+    public static ChannelGroup getChannelGroup(String groupId) {
+        return groupIdChannelGroupMap.get(groupId);
     }
 }

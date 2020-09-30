@@ -3,14 +3,8 @@ package the.wuxjian.im.protocol;
 import io.netty.buffer.ByteBuf;
 
 import the.wuxjian.im.protocol.command.Command;
-import the.wuxjian.im.protocol.request.CreateGroupRequestPacket;
-import the.wuxjian.im.protocol.request.LoginRequestPacket;
-import the.wuxjian.im.protocol.request.LogoutRequestPacket;
-import the.wuxjian.im.protocol.request.MessageRequestPacket;
-import the.wuxjian.im.protocol.response.CreateGroupResponsePacket;
-import the.wuxjian.im.protocol.response.LoginResponsePacket;
-import the.wuxjian.im.protocol.response.LogoutResponsePacket;
-import the.wuxjian.im.protocol.response.MessageResponsePacket;
+import the.wuxjian.im.protocol.request.*;
+import the.wuxjian.im.protocol.response.*;
 import the.wuxjian.im.serialize.Serializer;
 import the.wuxjian.im.serialize.SerializerAlgorithm;
 import the.wuxjian.im.serialize.impl.JSONSerializer;
@@ -21,15 +15,15 @@ import java.util.Map;
 /**
  * Created by wuxjian on 2020/9/25
  */
-public class PacketCodeC {
+public class PacketCodec {
     public static final int MAGIC_NUMBER = 0x12345678;
     private static final Map<Byte, Class<? extends Packet>> packetTypeMap;
     private static final Map<Byte, Serializer> serializerMap;
 
 
-    public final static PacketCodeC INSTANCE = new PacketCodeC();
+    public final static PacketCodec INSTANCE = new PacketCodec();
 
-    private PacketCodeC() {}
+    private PacketCodec() {}
 
 
     static {
@@ -42,6 +36,9 @@ public class PacketCodeC {
         packetTypeMap.put(Command.LOGOUT_RESPONSE, LogoutResponsePacket.class);
         packetTypeMap.put(Command.CREATE_GROUP_REQUEST, CreateGroupRequestPacket.class);
         packetTypeMap.put(Command.CREATE_GROUP_RESPONSE, CreateGroupResponsePacket.class);
+
+        packetTypeMap.put(Command.JOIN_GROUP_REQUEST, JoinGroupRequestPacket.class);
+        packetTypeMap.put(Command.JOIN_GROUP_RESPONSE, JoinGroupResponsePacket.class);
 
         serializerMap = new HashMap<>();
         Serializer serializer = new JSONSerializer();
