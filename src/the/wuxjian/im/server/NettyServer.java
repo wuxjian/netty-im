@@ -49,10 +49,13 @@ public class NettyServer {
                         //登出
                         pipeline.addLast(new LogoutRequestHandler());
 
+
                         //创建群
                         pipeline.addLast(new CreateGroupRequestHandler());
                         //入群
                         pipeline.addLast(new JoinGroupRequestHandler());
+                        //查看群成员
+                        pipeline.addLast(new ListGroupMembersRequestHandler());
 
 
                         pipeline.addLast(new MessageRequestHandler());
