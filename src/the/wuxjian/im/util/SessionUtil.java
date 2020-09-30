@@ -44,6 +44,10 @@ public class SessionUtil {
         groupIdChannelGroupMap.put(groupId, group);
     }
 
+    public static void removeGroup(String groupId) {
+        groupIdChannelGroupMap.remove(groupId);
+    }
+
     public static ChannelGroup getChannelGroup(String groupId) {
         return groupIdChannelGroupMap.get(groupId);
     }

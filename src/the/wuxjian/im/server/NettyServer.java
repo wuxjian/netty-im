@@ -54,6 +54,8 @@ public class NettyServer {
                         pipeline.addLast(new CreateGroupRequestHandler());
                         //入群
                         pipeline.addLast(new JoinGroupRequestHandler());
+                        //退群
+                        pipeline.addLast(new QuitGroupRequestHandler());
                         //查看群成员
                         pipeline.addLast(new ListGroupMembersRequestHandler());
 

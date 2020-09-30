@@ -21,6 +21,7 @@ public class ConsoleCommandManager implements ConsoleCommand {
         consoleCommandMap.put("createGroup", new CreateGroupConsoleCommand());
         consoleCommandMap.put("joinGroup", new JoinGroupConsoleCommand());
         consoleCommandMap.put("listGroupMembers", new ListGroupMembersConsoleCommand());
+        consoleCommandMap.put("quitGroup", new QuitGroupConsoleCommand());
     }
 
     @Override
@@ -32,6 +33,7 @@ public class ConsoleCommandManager implements ConsoleCommand {
         System.out.println("4 createGroup：创建群");
         System.out.println("5 listGroupMembers：查看群成员");
         System.out.println("6 joinGroup：入群");
+        System.out.println("7 quitGroup：退群");
         //  获取第一个指令
         String command = scanner.next();
 
