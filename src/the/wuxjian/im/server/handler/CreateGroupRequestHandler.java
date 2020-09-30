@@ -7,7 +7,7 @@ import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import the.wuxjian.im.protocol.request.CreateGroupRequestPacket;
 import the.wuxjian.im.protocol.response.CreateGroupResponsePacket;
-import the.wuxjian.im.session.IDUtil;
+import the.wuxjian.im.util.IDUtil;
 import the.wuxjian.im.session.Session;
 import the.wuxjian.im.util.SessionUtil;
 

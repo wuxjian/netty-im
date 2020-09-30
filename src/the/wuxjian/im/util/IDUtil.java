@@ -1,4 +1,4 @@
-package the.wuxjian.im.session;
+package the.wuxjian.im.util;
 
 import java.util.UUID;
 
