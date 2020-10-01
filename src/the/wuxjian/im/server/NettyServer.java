@@ -58,7 +58,8 @@ public class NettyServer {
                         pipeline.addLast(new QuitGroupRequestHandler());
                         //查看群成员
                         pipeline.addLast(new ListGroupMembersRequestHandler());
-
+                        //发送群消息
+                        pipeline.addLast(new GroupMessageRequestHandler());
 
                         pipeline.addLast(new MessageRequestHandler());
                     }

@@ -49,6 +49,7 @@ public class NettyClient {
                         pipeline.addLast(new JoinGroupResponseHandler());
                         pipeline.addLast(new QuitGroupResponseHandler());
                         pipeline.addLast(new ListGroupMembersResponseHandler());
+                        pipeline.addLast(new GroupMessageResponseHandler());
                     }
                 });
 
