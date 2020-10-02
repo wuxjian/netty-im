@@ -13,6 +13,7 @@ import the.wuxjian.im.codec.PacketCodecHandler;
 import the.wuxjian.im.codec.PacketDecoder;
 import the.wuxjian.im.codec.PacketEncoder;
 import the.wuxjian.im.codec.Spliter;
+import the.wuxjian.im.handler.IMIdleStateHandler;
 import the.wuxjian.im.server.handler.*;
 
 import java.util.Date;
@@ -39,10 +40,10 @@ public class NettyServer {
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     protected void initChannel(SocketChannel ch) {
                         ChannelPipeline pipeline = ch.pipeline();
-
+                        //空闲检测
+                        pipeline.addLast(new IMIdleStateHandler());
                         //拆包粘包
                         pipeline.addLast(new Spliter());
-
                         //编解码
                         pipeline.addLast(PacketCodecHandler.INSTANCE);
                         //登录请求

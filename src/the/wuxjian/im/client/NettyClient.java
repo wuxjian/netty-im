@@ -11,6 +11,7 @@ import the.wuxjian.im.client.handler.*;
 import the.wuxjian.im.codec.PacketDecoder;
 import the.wuxjian.im.codec.PacketEncoder;
 import the.wuxjian.im.codec.Spliter;
+import the.wuxjian.im.handler.IMIdleStateHandler;
 
 import java.util.Date;
 import java.util.Scanner;
@@ -39,6 +40,9 @@ public class NettyClient {
                     @Override
                     public void initChannel(SocketChannel ch) {
                         ChannelPipeline pipeline = ch.pipeline();
+                        //空闲检测
+                        pipeline.addLast(new IMIdleStateHandler());
+
                         pipeline.addLast(new Spliter());
                         pipeline.addLast(new PacketDecoder());
                         pipeline.addLast(new PacketEncoder());
