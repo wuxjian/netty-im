@@ -9,6 +9,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import the.wuxjian.im.codec.PacketCodecHandler;
 import the.wuxjian.im.codec.PacketDecoder;
 import the.wuxjian.im.codec.PacketEncoder;
 import the.wuxjian.im.codec.Spliter;
@@ -39,8 +40,10 @@ public class NettyServer {
                     protected void initChannel(SocketChannel ch) {
                         ChannelPipeline pipeline = ch.pipeline();
                         pipeline.addLast(new Spliter());
-                        pipeline.addLast(new PacketDecoder());
-                        pipeline.addLast(new PacketEncoder());
+
+                        //编解码
+                        pipeline.addLast(PacketCodecHandler.INSTANCE);
+
                         pipeline.addLast(LoginRequestHandler.INSTANCE);
 
                         //身份校验
