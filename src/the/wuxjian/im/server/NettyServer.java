@@ -39,31 +39,18 @@ public class NettyServer {
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     protected void initChannel(SocketChannel ch) {
                         ChannelPipeline pipeline = ch.pipeline();
+
+                        //拆包粘包
                         pipeline.addLast(new Spliter());
 
                         //编解码
                         pipeline.addLast(PacketCodecHandler.INSTANCE);
-
+                        //登录请求
                         pipeline.addLast(LoginRequestHandler.INSTANCE);
-
                         //身份校验
                         pipeline.addLast(AuthHandler.INSTANCE);
-
-                        //登出
-                        pipeline.addLast(LogoutRequestHandler.INSTANCE);
-
-                        //创建群
-                        pipeline.addLast(CreateGroupRequestHandler.INSTANCE);
-                        //入群
-                        pipeline.addLast(JoinGroupRequestHandler.INSTANCE);
-                        //退群
-                        pipeline.addLast(QuitGroupRequestHandler.INSTANCE);
-                        //查看群成员
-                        pipeline.addLast(ListGroupMembersRequestHandler.INSTANCE);
-                        //发送群消息
-                        pipeline.addLast(GroupMessageRequestHandler.INSTANCE);
-
-                        pipeline.addLast(MessageRequestHandler.INSTANCE);
+                        //通用的处理器
+                        pipeline.addLast(IMHandler.INSTANCE);
                     }
                 });
 
