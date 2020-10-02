@@ -1,5 +1,6 @@
 package the.wuxjian.im.server.handler;
 
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import the.wuxjian.im.protocol.request.LoginRequestPacket;
@@ -13,7 +14,14 @@ import java.util.UUID;
 /**
  * Created by wuxjian on 2020/9/29
  */
+@ChannelHandler.Sharable
 public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {
+
+    public static final LoginRequestHandler INSTANCE = new LoginRequestHandler();
+
+    protected LoginRequestHandler() {
+    }
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, LoginRequestPacket packet) throws Exception {
         System.out.println(new Date() + ": 客户端开始登录……");

@@ -41,27 +41,26 @@ public class NettyServer {
                         pipeline.addLast(new Spliter());
                         pipeline.addLast(new PacketDecoder());
                         pipeline.addLast(new PacketEncoder());
-                        pipeline.addLast(new LoginRequestHandler());
+                        pipeline.addLast(LoginRequestHandler.INSTANCE);
 
                         //身份校验
-                        pipeline.addLast(new AuthHandler());
+                        pipeline.addLast(AuthHandler.INSTANCE);
 
                         //登出
-                        pipeline.addLast(new LogoutRequestHandler());
-
+                        pipeline.addLast(LogoutRequestHandler.INSTANCE);
 
                         //创建群
-                        pipeline.addLast(new CreateGroupRequestHandler());
+                        pipeline.addLast(CreateGroupRequestHandler.INSTANCE);
                         //入群
-                        pipeline.addLast(new JoinGroupRequestHandler());
+                        pipeline.addLast(JoinGroupRequestHandler.INSTANCE);
                         //退群
-                        pipeline.addLast(new QuitGroupRequestHandler());
+                        pipeline.addLast(QuitGroupRequestHandler.INSTANCE);
                         //查看群成员
-                        pipeline.addLast(new ListGroupMembersRequestHandler());
+                        pipeline.addLast(ListGroupMembersRequestHandler.INSTANCE);
                         //发送群消息
-                        pipeline.addLast(new GroupMessageRequestHandler());
+                        pipeline.addLast(GroupMessageRequestHandler.INSTANCE);
 
-                        pipeline.addLast(new MessageRequestHandler());
+                        pipeline.addLast(MessageRequestHandler.INSTANCE);
                     }
                 });
 
