@@ -42,10 +42,10 @@ public class NettyClient {
                         ChannelPipeline pipeline = ch.pipeline();
                         //空闲检测
                         pipeline.addLast(new IMIdleStateHandler());
-
                         pipeline.addLast(new Spliter());
                         pipeline.addLast(new PacketDecoder());
                         pipeline.addLast(new PacketEncoder());
+                        pipeline.addLast(new HeartBeatTimerHandler());
                         pipeline.addLast(new LoginResponseHandler());
                         pipeline.addLast(new LogoutResponseHandler());
                         pipeline.addLast(new MessageResponseHandler());

@@ -48,6 +48,8 @@ public class NettyServer {
                         pipeline.addLast(PacketCodecHandler.INSTANCE);
                         //登录请求
                         pipeline.addLast(LoginRequestHandler.INSTANCE);
+                        //心跳处理
+                        pipeline.addLast(HeartBeatRequestHandler.INSTANCE);
                         //身份校验
                         pipeline.addLast(AuthHandler.INSTANCE);
                         //通用的处理器
