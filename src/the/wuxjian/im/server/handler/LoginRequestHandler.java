@@ -40,7 +40,7 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
             System.out.println(new Date() + ": 登录失败!");
         }
         // 登录响应
-        ctx.channel().writeAndFlush(loginResponsePacket);
+        ctx.writeAndFlush(loginResponsePacket);
     }
 
     private boolean valid(LoginRequestPacket loginRequestPacket) {

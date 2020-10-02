@@ -27,6 +27,6 @@ public class JoinGroupRequestHandler extends SimpleChannelInboundHandler<JoinGro
 
         responsePacket.setSuccess(true);
         responsePacket.setGroupId(groupId);
-        ctx.channel().writeAndFlush(responsePacket);
+        ctx.writeAndFlush(responsePacket);
     }
 }
